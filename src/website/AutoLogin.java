@@ -2,6 +2,7 @@ package website;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
@@ -11,10 +12,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
+import io.opentelemetry.exporter.logging.SystemOutLogExporter;
+
 
 /*
  * @Author: c0nD
  * @Version: 1.0.1
+ * 
+ * AutoLogin serves to open a website you frequently visit, log you in, and bring you 
+ * to whatever page you'd like to be at. For example, if you're enrolled in the free
+ * CS50 course, but hate having to navigate there: use this program to navigate to
+ * the course in just 1 click!
  * 
  * Current ChromeDriver Version: 102.0.5005.61
  * Current Chrome Version (user's sake): 102.0.5005.115
@@ -30,11 +38,13 @@ public class AutoLogin extends Thread{
 	public static WebDriver driver = null;
 	
 	// Add to the arrays for different websites, the websiteIndex indicates which website
-	// you'd like to launch after setting them all up
+	// you'd like to launch after setting them all up, and totalWebsites are how many websites
+	// you would like to have loaded.
 	public  static String websiteURL[] = new String[10];
 	public static String usernameID[] = new String[10];
 	public static String passwordID[] = new String[10];
-	public final static int websiteIndex = 1;
+	public static final int totalWebsites = 2;
+	public static final int websiteIndex = 1;
 	
 	/*
 	 * Main Method.
@@ -42,7 +52,7 @@ public class AutoLogin extends Thread{
 	 * @throws Exception - BufferedReader
 	 * @param args - default args
 	 */
-	public static void main(String args[]) throws Exception{
+	public static void main(String args[]) throws IOException{
 		// Setup ChromeDriver
 		System.setProperty("webdriver.chrome.driver",".\\driver\\chromedriver.exe");
 		driver = new ChromeDriver();
@@ -101,23 +111,20 @@ public class AutoLogin extends Thread{
 	/*
 	 * Sets up multiple websites with their respective username and password IDs.
 	 */
-	public static void setup() {
-		// Website 1
-		setWebsite("https://authn.edx.org/login", 1);
-		setWebsiteUsernameID("emailOrUsername", 1);
-		setWebsitePasswordID("password", 1);
-	}
-	
-	public static void setWebsite(String url, int index) {
-		websiteURL[index] = url;
-	}
-	
-	public static void setWebsiteUsernameID(String usernameID, int index) {
-		AutoLogin.usernameID[index] = usernameID;
-	}
-	
-	public static void setWebsitePasswordID(String passwordID, int index) {
-		AutoLogin.passwordID[index] = passwordID;
+	public static void setup() throws IOException{		
+		File file = new File(".\\src\\website\\id.txt");
+		BufferedReader br = new BufferedReader(new FileReader(file));	
+		// Loads all websites and their metadata for their user/password fields into arrays
+		for (int i = 1; i <= totalWebsites; i++) {
+			String url = br.readLine();
+			String user = br.readLine();
+			String password = br.readLine();
+			br.readLine(); // Clears the line break
+			
+			websiteURL[i] = url.replaceFirst("website:", "");
+			usernameID[i] = user.replaceFirst("user-id:", "");
+			passwordID[i] = password.replaceFirst("password-id:", "");
+		}
+		br.close();
 	}
 }
-	

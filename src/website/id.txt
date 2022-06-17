@@ -1,0 +1,8 @@
+website:https://authn.edx.org/login
+user-id:emailOrUsername
+password-id:password
+// Another Website
+website:https://authn.edx.org/login
+user-id:emailOrUsername
+password-id:password
+// Another Website
