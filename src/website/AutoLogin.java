@@ -98,7 +98,11 @@ public class AutoLogin extends Thread{
 		}
 	}
 	
+	/*
+	 * Sets up multiple websites with their respective username and password IDs.
+	 */
 	public static void setup() {
+		// Website 1
 		setWebsite("https://authn.edx.org/login", 1);
 		setWebsiteUsernameID("emailOrUsername", 1);
 		setWebsitePasswordID("password", 1);
