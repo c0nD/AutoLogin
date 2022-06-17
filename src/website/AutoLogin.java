@@ -23,16 +23,18 @@ import org.openqa.selenium.interactions.Actions;
  * chrome://settings/help in order to find your version of chrome, and use
  * https://chromedriver.chromium.org/downloads to get new versions of 
  * ChromeDriver. Keep in mind the last set of numbers don't matter that much
- * because Selenium will find the correct version dependent on the first numbers (ie 102)
+ * because Selenium will find the correct version dependent on the first numbers (ie 102).
  * 
  */
 public class AutoLogin extends Thread{
 	public static WebDriver driver = null;
 	
-	// Change the fields here to the id of the text boxes for username and password
-	public final static String websiteURL = "https://authn.edx.org/login";
-	public final static String usernameID = "emailOrUsername";
-	public final static String passwordID = "password";
+	// Add to the arrays for different websites, the websiteIndex indicates which website
+	// you'd like to launch after setting them all up
+	public  static String websiteURL[] = new String[10];
+	public static String usernameID[] = new String[10];
+	public static String passwordID[] = new String[10];
+	public final static int websiteIndex = 1;
 	
 	/*
 	 * Main Method.
@@ -54,18 +56,20 @@ public class AutoLogin extends Thread{
 		br.close();
 		user = user.replaceFirst("user:", "");
 		password = password.replaceFirst("password:", "");
-						
-		// Website login, in this case I'm using it for CS50.
-		driver.get(websiteURL);
 		
-		WebElement webUsername = driver.findElement(By.id(usernameID)); 
-		WebElement webPassword = driver.findElement(By.id(passwordID));
+		setup();
+		
+		// Website login, in this case I'm using it for CS50.
+		driver.get(websiteURL[websiteIndex]);
+		
+		WebElement webUsername = driver.findElement(By.id(usernameID[websiteIndex])); 
+		WebElement webPassword = driver.findElement(By.id(passwordID[websiteIndex]));
 		// WebElement signIn = driver.findElement(By.id("sign-in")); // Implement later if hitting 'enter/return' doesn't login
 
 		webUsername.sendKeys(user);
 		webPassword.sendKeys(password);
 		webPassword.sendKeys(Keys.RETURN);
-		
+		// Optional navigation
 		buttonPress(null, "Resume Course");
 	}
 	
@@ -92,6 +96,24 @@ public class AutoLogin extends Thread{
 			element = driver.findElement(By.partialLinkText(continueButtonLinkTitle));
 			element.click();
 		}
+	}
+	
+	public static void setup() {
+		setWebsite("https://authn.edx.org/login", 1);
+		setWebsiteUsernameID("emailOrUsername", 1);
+		setWebsitePasswordID("password", 1);
+	}
+	
+	public static void setWebsite(String url, int index) {
+		websiteURL[index] = url;
+	}
+	
+	public static void setWebsiteUsernameID(String usernameID, int index) {
+		AutoLogin.usernameID[index] = usernameID;
+	}
+	
+	public static void setWebsitePasswordID(String passwordID, int index) {
+		AutoLogin.passwordID[index] = passwordID;
 	}
 }
 	
