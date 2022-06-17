@@ -14,7 +14,7 @@ import org.openqa.selenium.interactions.Actions;
 
 /*
  * @Author: c0nD
- * @Version: 1.0.0
+ * @Version: 1.0.1
  * 
  * Current ChromeDriver Version: 102.0.5005.61
  * Current Chrome Version (user's sake): 102.0.5005.115
