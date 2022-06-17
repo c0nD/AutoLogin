@@ -44,12 +44,12 @@ public class AutoLogin extends Thread{
 	public static String usernameID[] = new String[10];
 	public static String passwordID[] = new String[10];
 	public static final int totalWebsites = 2;
-	public static final int websiteIndex = 1;
+	public static final int websiteIndex = 1; // Starts at 1
 	
 	/*
 	 * Main Method.
 	 * 
-	 * @throws Exception - BufferedReader
+	 * @throws IOException - BufferedReader
 	 * @param args - default args
 	 */
 	public static void main(String args[]) throws IOException{
@@ -110,6 +110,8 @@ public class AutoLogin extends Thread{
 	
 	/*
 	 * Sets up multiple websites with their respective username and password IDs.
+	 * 
+	 * @throws IOException - BufferedReader
 	 */
 	public static void setup() throws IOException{		
 		File file = new File(".\\src\\website\\id.txt");
