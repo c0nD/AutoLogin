@@ -37,14 +37,14 @@ import io.opentelemetry.exporter.logging.SystemOutLogExporter;
 public class AutoLogin extends Thread{
 	public static WebDriver driver = null;
 	
-	// Add to the arrays for different websites, the websiteIndex indicates which website
-	// you'd like to launch after setting them all up, and totalWebsites are how many websites
+	// Add to the arrays for different websites, the WEBSITE_INDEX indicates which website
+	// you'd like to launch after setting them all up, and TOTAL_WEBSITES are how many websites
 	// you would like to have loaded.
 	public  static String websiteURL[] = new String[10];
 	public static String usernameID[] = new String[10];
 	public static String passwordID[] = new String[10];
-	public static final int totalWebsites = 2;
-	public static final int websiteIndex = 1; // Starts at 1
+	public static final int TOTAL_WEBSITES = 2;
+	public static final int WEBSITE_INDEX = 1; // Starts at 1
 	
 	/*
 	 * Main Method.
@@ -70,10 +70,10 @@ public class AutoLogin extends Thread{
 		setup();
 		
 		// Website login, in this case I'm using it for CS50.
-		driver.get(websiteURL[websiteIndex]);
+		driver.get(websiteURL[WEBSITE_INDEX]);
 		
-		WebElement webUsername = driver.findElement(By.id(usernameID[websiteIndex])); 
-		WebElement webPassword = driver.findElement(By.id(passwordID[websiteIndex]));
+		WebElement webUsername = driver.findElement(By.id(usernameID[WEBSITE_INDEX])); 
+		WebElement webPassword = driver.findElement(By.id(passwordID[WEBSITE_INDEX]));
 		// WebElement signIn = driver.findElement(By.id("sign-in")); // Implement later if hitting 'enter/return' doesn't login
 
 		webUsername.sendKeys(user);
@@ -90,7 +90,7 @@ public class AutoLogin extends Thread{
 	 * that 
 	 * 
 	 * @param continueButtonXpath - the html path of the element/button you'd like to press
-	 * The format is as follows: "//tagname[@Attribute=’Value’]" , alternatively when using inspect
+	 * The format is as follows: "//tagname[@Attribute=â€™Valueâ€™]" , alternatively when using inspect
 	 * element you can: Right Click Code -> Copy -> XPath
 	 * @param continueButtonLinkTitle - The partial/full title of whatever link you'd like to press.
 	 */
@@ -117,7 +117,7 @@ public class AutoLogin extends Thread{
 		File file = new File(".\\src\\website\\id.txt");
 		BufferedReader br = new BufferedReader(new FileReader(file));	
 		// Loads all websites and their metadata for their user/password fields into arrays
-		for (int i = 1; i <= totalWebsites; i++) {
+		for (int i = 1; i <= TOTAL_WEBSITES; i++) {
 			String url = br.readLine();
 			String user = br.readLine();
 			String password = br.readLine();
